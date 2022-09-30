@@ -1,5 +1,5 @@
 #pragma once
-#ifdef DEBUG
+#ifdef DEBUG // DEBUG
 #define LOGLN(X) Serial.println(X)
 #define LOG(X) Serial.print(X)
 
@@ -12,7 +12,7 @@ void setup() \
 } \
 void ProgramInit()
 
-#else
+#else// NOT DEBUG
 
 #define LOGLN(X)
 #define LOG(X)
@@ -25,7 +25,7 @@ void setup() \
 } \
 void ProgramInit()
 
-#endif
+#endif // DEBUG
 
 #define PROGRAM_LOOP() \
 void RunInLoop(); \
