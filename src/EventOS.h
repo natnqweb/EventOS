@@ -1,4 +1,5 @@
-#pragma once
+#ifndef EVENTS_OS
+#define EVENTS_OS _EVENT_OS
 #include "PinMapping.h"
 #include "macros.h"
 #define ON_FALL_EVENT 0
@@ -31,3 +32,4 @@ void InitPinEvents();
 void RunEventsOnPins(bool run = true);
 void TurnOffEventsOnPin(unsigned char pin, bool reset = false);
 void AddEventListener(unsigned char pin, int nEventType, Event function);
+#endif

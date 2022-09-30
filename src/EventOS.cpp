@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#define EVENT_OS
 #include "EventOS.h"
 void __EmptyFunction__() {}
 

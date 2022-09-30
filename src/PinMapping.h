@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PIN_MAPPING
+#define PIN_MAPPING _PINMAPPING
 struct PinMap { unsigned char pin, index; };
 
 enum PinMapping
@@ -17,7 +18,7 @@ enum PinMapping
     _PIN_D13,
     NUMBER_OF_PINS // keep NUMBER_OF_PINS always at end of enum
 };
-
+#ifdef EVENT_OS
 static PinMap s_map[NUMBER_OF_PINS]
 {
     // {actual hardware pin number, pin name used in code}
@@ -34,3 +35,6 @@ static PinMap s_map[NUMBER_OF_PINS]
     {12,_PIN_D12},
     {13,_PIN_D13},
 };
+#endif
+
+#endif
