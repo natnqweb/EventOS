@@ -3,7 +3,7 @@
 #define LOGLN(X) Serial.println(X)
 #define LOG(X) Serial.print(X)
 
-#define PROGRAM_SETUP(BAUDRATE) void ProgramInit(); \
+#define PROGRAM_SETUP(BAUDRATE) ProgramInit(); \
 void setup() \
 {\
  Serial.begin(BAUDRATE);\
@@ -17,7 +17,7 @@ void ProgramInit()
 #define LOGLN(X)
 #define LOG(X)
 
-#define PROGRAM_SETUP(BAUDRATE) void ProgramInit(); \
+#define PROGRAM_SETUP(BAUDRATE) ProgramInit(); \
 void setup() \
 {\
  InitPinEvents();\
@@ -28,7 +28,7 @@ void ProgramInit()
 #endif // DEBUG
 
 #define PROGRAM_LOOP() \
-void RunInLoop(); \
+RunInLoop(); \
 void loop() \
 { \
 RunEventsOnPins(); \
