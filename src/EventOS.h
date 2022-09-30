@@ -11,11 +11,11 @@ void __EmptyFunction__();
 
 struct RunEventSettings
 {
-    bool bEventOnPinStateChange = true;
-    bool bEventOnPinSetLow = true;
-    bool bEventOnPinSetHigh = true;
+    bool bEventOnPinStateChange = false;
+    bool bEventOnPinSetLow = false;
+    bool bEventOnPinSetHigh = false;
     bool bLastButtonState = true;
-    bool bStopAll = false;
+    bool bStopAll = true;
 };
 
 struct PinEvent

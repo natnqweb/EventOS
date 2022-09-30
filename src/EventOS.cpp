@@ -34,9 +34,9 @@ void RunEventsOnPins(bool run)
             if (event.settings.bEventOnPinStateChange)
                 event.OnPinStateChange();
 
-            if (pinState && event.settings.bEventOnPinSetHigh)
+            if (event.settings.bEventOnPinSetHigh && pinState)
                 event.OnPinStateHigh();
-            else if (!pinState && event.settings.bEventOnPinSetLow)
+            else if (event.settings.bEventOnPinSetLow && !pinState)
                 event.OnPinStateLow();
         }
     }
@@ -54,14 +54,19 @@ void AddEventListener(unsigned char pin, int eventType, Event function)
     {
         case ON_CHANGE_EVENT:
             refEvent.OnPinStateChange = function;
+            refEvent.settings.bEventOnPinStateChange = true;
             break;
         case ON_RISING_EDGE_EVENT:
             refEvent.OnPinStateHigh = function;
+            refEvent.settings.bEventOnPinSetHigh = true;
             break;
         case ON_FALLING_EDGE_EVENT:
             refEvent.OnPinStateLow = function;
-
+            refEvent.settings.bEventOnPinSetLow = true;
         default:
             break;
     }
+
+    refEvent.settings.bStopAll = false;
+
 }
