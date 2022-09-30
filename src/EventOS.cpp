@@ -55,10 +55,10 @@ void AddEventListener(unsigned char pin, int eventType, Event function)
         case ON_CHANGE_EVENT:
             refEvent.OnPinStateChange = function;
             break;
-        case ON_RAISE_EVENT:
+        case ON_RISING_EDGE_EVENT:
             refEvent.OnPinStateHigh = function;
             break;
-        case ON_FALL_EVENT:
+        case ON_FALLING_EDGE_EVENT:
             refEvent.OnPinStateLow = function;
 
         default:

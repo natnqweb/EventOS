@@ -2,8 +2,8 @@
 #define EVENTS_OS _EVENT_OS
 #include "PinMapping.h"
 #include "macros.h"
-#define ON_FALL_EVENT 0
-#define ON_RAISE_EVENT 1
+#define ON_FALLING_EDGE_EVENT 0
+#define ON_RISING_EDGE_EVENT 1
 #define ON_CHANGE_EVENT 2
 
 typedef void (*Event)(void);

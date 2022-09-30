@@ -1,14 +1,33 @@
 #define DEBUG
 #include <EventOS.h>
 
-void LogHelloFromEventOS()
+static const int ledPin = 13;
+bool ledState = true;
+
+void ChangeLedState()
 {
-    LOGLN("HelloFromEventOS");
+    LOGLN("pin state has changed");
+    ledState = !ledState;
+    digitalWrite(ledPin, ledState);
+}
+
+void PrintPinStateIsFalling()
+{
+    LOGLN("Pin State is falling");
+}
+
+void PrintPinStateIsRaising()
+{
+    LOGLN("Pin State is Rising");
 }
 
 PROGRAM_SETUP(115200)
 {
-    AddEventListener(_PIN_D2, ON_RAISE_EVENT, LogHelloFromEventOS);
+    pinMode(ledPin, OUTPUT);
+    // this is purely implemented in software it has nothing to do with hardware interrupts
+    AddEventListener(_PIN_D2, ON_CHANGE_EVENT, ChangeLedState);
+    AddEventListener(_PIN_D2, ON_RISING_EDGE_EVENT, ChangeLedState);
+    AddEventListener(_PIN_D2, ON_FALLING_EDGE_EVENT, ChangeLedState);
 }
 
 PROGRAM_LOOP()
