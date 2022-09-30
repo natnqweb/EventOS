@@ -6,10 +6,12 @@ void LogHelloFromEventOS()
     LOGLN("HelloFromEventOS");
 }
 
-SETUP_START(115200)
-AddEventListener(_PIN_D2, ON_RAISE_EVENT, LogHelloFromEventOS);
-SETUP_END
+PROGRAM_SETUP(115200)
+{
+    AddEventListener(_PIN_D2, ON_RAISE_EVENT, LogHelloFromEventOS);
+}
 
-LOOP_START
+PROGRAM_LOOP()
+{
 
-LOOP_END
+}

@@ -2,22 +2,36 @@
 #ifdef DEBUG
 #define LOGLN(X) Serial.println(X)
 #define LOG(X) Serial.print(X)
-#define SETUP_START(BAUDRATE)\
- void setup()\
- {\
+
+#define PROGRAM_SETUP(BAUDRATE) void ProgramInit(); \
+void setup() \
+{\
  Serial.begin(BAUDRATE);\
- InitPinEvents();
+ InitPinEvents();\
+ ProgramInit();\
+} \
+void ProgramInit()
+
 #else
+
 #define LOGLN(X)
 #define LOG(X)
-#define SETUP_START(BAUDRATE)\
- void setup()\
- {\
-  InitPinEvents();
+
+#define PROGRAM_SETUP(BAUDRATE) void ProgramInit(); \
+void setup() \
+{\
+ InitPinEvents();\
+ ProgramInit();\
+} \
+void ProgramInit()
+
 #endif
 
-#define SETUP_END }
-
-#define LOOP_START void loop(){\
-  RunEventsOnPins();
-#define LOOP_END }
+#define PROGRAM_LOOP() \
+void RunInLoop(); \
+void loop() \
+{ \
+RunEventsOnPins(); \
+RunInLoop(); \
+} \
+void RunInLoop()
