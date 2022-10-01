@@ -1,5 +1,7 @@
 #define DEBUG
 #include <EventOS.h>
+// documentation
+// https://github.com/natnqweb/EventOS
 
 static const int ledPin = 13;
 bool ledState = true;

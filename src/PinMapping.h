@@ -1,5 +1,6 @@
 #ifndef PIN_MAPPING
 #define PIN_MAPPING _PINMAPPING
+
 struct PinMap { unsigned char pin, index; };
 
 enum PinMapping
@@ -20,7 +21,6 @@ enum PinMapping
 };
 
 #ifdef EVENT_OS
-
 static const PinMap s_map[NUMBER_OF_PINS]
 {
     // {actual hardware pin number, pin name used in code}
@@ -37,7 +37,6 @@ static const PinMap s_map[NUMBER_OF_PINS]
     {12,_PIN_D12},
     {13,_PIN_D13},
 };
-
 #endif // EVENT_OS
 
 #endif // PIN_MAPPING
