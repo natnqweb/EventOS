@@ -1,5 +1,5 @@
 #ifndef EVENTS_OS
-#define EVENTS_OS _EVENT_OS
+#define EVENTS_OS
 #include "PinMapping.h"
 #include "macros.h"
 #define ON_FALLING_EDGE_EVENT 0
