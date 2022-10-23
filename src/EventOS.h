@@ -9,6 +9,14 @@
 typedef void (*Event)(void);
 void __EmptyFunction__();
 
+#ifndef EVENT_OS
+#ifdef EVENT_OS_OFF
+static bool s_bShutdown{ true };
+#else
+static bool s_bShutdown{ false };
+#endif
+#endif
+
 struct RunEventSettings
 {
     bool bEventOnPinStateChange = false;

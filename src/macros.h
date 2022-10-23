@@ -26,12 +26,15 @@ void setup() \
 void ProgramInit()
 
 #endif // DEBUG
-
+#define SHUTDOWN_EVENT_OS s_bShutdown
 #define PROGRAM_LOOP() \
 RunInLoop(); \
 void loop() \
 { \
-RunEventsOnPins(); \
+RunEventsOnPins(!SHUTDOWN_EVENT_OS); \
 RunInLoop(); \
 } \
 void RunInLoop()
+
+#define TURN_OFF_EVENT_OS() SHUTDOWN_EVENT_OS = true
+#define TURN_ON_EVENT_OS() SHUTDOWN_EVENT_OS = false
