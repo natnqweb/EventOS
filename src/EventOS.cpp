@@ -7,10 +7,10 @@ static PinEvent s_events[NUMBER_OF_PINS]{};
 
 void InitPinEvents()
 {
-    for (unsigned char i = 0; i < NUMBER_OF_PINS; i++)
+    for (IndexType i = 0; i < NUMBER_OF_PINS; i++)
     {
-        int index = s_map[i].index;
-        unsigned char pin = s_map[i].pin;
+        IndexType index = s_map[i].index;
+        PinType pin = s_map[i].pin;
         PinEvent& event = s_events[index];
         event.pin = pin;
         pinMode(pin, INPUT_PULLUP);
@@ -20,7 +20,7 @@ void InitPinEvents()
 
 void RunEventsOnPins(bool run)
 {
-    for (unsigned char i = 0; (run && i < NUMBER_OF_PINS); i++)
+    for (IndexType i = 0; (run && i < NUMBER_OF_PINS); i++)
     {
         PinEvent& event = s_events[i];
         if (event.settings.bStopAll)
@@ -42,12 +42,12 @@ void RunEventsOnPins(bool run)
     }
 }
 
-void TurnOffEventsOnPin(unsigned char pin, bool reset)
+void TurnOffEventsOnPin(PinType pin, bool reset)
 {
     s_events[pin].settings.bStopAll = !reset;
 }
 
-void AddEventListener(unsigned char pin, int eventType, Event function)
+void AddEventListener(PinType pin, int eventType, Event function)
 {
     PinEvent& refEvent = s_events[pin];
     switch (eventType)

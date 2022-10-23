@@ -1,5 +1,8 @@
 #ifndef PIN_MAPPING
 #define PIN_MAPPING
+
+typedef unsigned char PinType;
+typedef PinType IndexType;
 #include "MappingMacro.h"
 
 START_MAPPING_DECLARATION

@@ -1,7 +1,7 @@
 #ifndef MAPPING_MACRO_H
 #define MAPPING_MACRO_H
 
-#define START_MAPPING_DECLARATION struct PinMap { unsigned char pin, index; }; \
+#define START_MAPPING_DECLARATION struct PinMap { PinType pin; IndexType index; }; \
 enum PinMapping \
 {
 #define END_MAPPING_DECLARATION  NUMBER_OF_PINS \
