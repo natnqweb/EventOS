@@ -3,7 +3,28 @@
 #include "EventOS.h"
 void __EmptyFunction__() {}
 
+#ifdef EVENT_OS_OFF
+static bool s_bShutdown{ true };
+#else
+static bool s_bShutdown{ false };
+#endif // EVENT_OS_OFF
+
 static PinEvent s_events[NUMBER_OF_PINS]{};
+
+void ShutDownEventOS()
+{
+    s_bShutdown = true;
+}
+
+void TurnOnEventOS()
+{
+    s_bShutdown = false;
+}
+
+const bool& IsEventOSTurnedOff()
+{
+    return s_bShutdown;
+}
 
 void InitPinEvents()
 {

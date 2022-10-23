@@ -26,7 +26,7 @@ void setup() \
 void ProgramInit()
 
 #endif // DEBUG
-#define SHUTDOWN_EVENT_OS s_bShutdown
+#define SHUTDOWN_EVENT_OS IsEventOSTurnedOff()
 #define PROGRAM_LOOP() \
 RunInLoop(); \
 void loop() \
@@ -36,5 +36,5 @@ RunInLoop(); \
 } \
 void RunInLoop()
 
-#define TURN_OFF_EVENT_OS() SHUTDOWN_EVENT_OS = true
-#define TURN_ON_EVENT_OS() SHUTDOWN_EVENT_OS = false
+#define TURN_OFF_EVENT_OS() ShutDownEventOS()
+#define TURN_ON_EVENT_OS() TurnOnEventOS()

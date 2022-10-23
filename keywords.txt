@@ -20,6 +20,9 @@ AddEventListener	KEYWORD2
 InitPinEvents	KEYWORD2
 TurnOffEventsOnPin	KEYWORD2
 RunEventsOnPins	KEYWORD2
+IsEventOSTurnedOff KEYWORD2
+ShutDownEventOS KEYWORD2
+TurnOnEventOS   KEYWORD2
 
 # Datatypes && Variables && Some Macros && Static (LITERAL1)
 DEBUG	LITERAL1
