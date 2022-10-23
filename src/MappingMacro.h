@@ -9,7 +9,7 @@ enum PinMapping \
 
 #define ADD_PIN_TO_MAP(PIN) PIN,
 
-#define MERGE_PINS(PIN,VPIN) {PIN,VPIN}
+#define MERGE_PINS(PIN,VPIN) {PIN,VPIN},
 
 #define START_MAPPING_DEFINITION static const PinMap s_map[NUMBER_OF_PINS] \
 {
