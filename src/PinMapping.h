@@ -22,6 +22,7 @@ typedef PinType IndexType;
 START_MAPPING_DECLARATION
 #if _IS8266 || _ISUNO || _IS32
 #ifdef ESP8266
+_PIN_D1,
 _PIN_D2,
 _PIN_D5,
 _PIN_D6,
@@ -86,10 +87,11 @@ START_MAPPING_DEFINITION
 // Merge (actual hardware pin number, pin name used in code)
 // connecting real pins with virtual pins
 #ifdef ESP8266
-MERGE_PINS(D2, _PIN_D2)
-MERGE_PINS(D5, _PIN_D5)
-MERGE_PINS(D6, _PIN_D6)
-MERGE_PINS(D7, _PIN_D7)
+MERGE_PINS(5, _PIN_D1)
+MERGE_PINS(4, _PIN_D2)
+MERGE_PINS(14, _PIN_D5)
+MERGE_PINS(12, _PIN_D6)
+MERGE_PINS(13, _PIN_D7)
 #endif
 #ifdef ESP32
 MERGE_PINS(4, _PIN_4)
