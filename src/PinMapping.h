@@ -1,35 +1,18 @@
 #ifndef PIN_MAPPING
 #define PIN_MAPPING
-#ifdef ESP8266
-#define _IS8266 true
-#else
-#define _IS8266 false
-#endif
-#ifdef ESP32 
-#define _IS32 true
-#else
-#define _IS32 false
-#endif
-#ifdef ARDUINO_AVR_UNO
-#define _ISARDUINO_AVR_UNO true
-#else
-#define _ISARDUINO_AVR_UNO false
-#endif
 
 typedef unsigned char PinType;
 typedef PinType IndexType;
 #include "MappingMacro.h"
 
 START_MAPPING_DECLARATION
-#if _IS8266 || _ISARDUINO_AVR_UNO || _IS32 || ARDUINO_AVR_NANO
-#ifdef ESP8266
+#if defined(ESP8266) 
 _PIN_D1,
 _PIN_D2,
 _PIN_D5,
 _PIN_D6,
 _PIN_D7,
-#endif
-#ifdef ESP32
+#elif defined(ESP32)
 _PIN_D4,
 _PIN_D5,
 _PIN_D13,
@@ -51,8 +34,7 @@ _PIN_D34,
 _PIN_D35,
 _PIN_D36,
 _PIN_D39,
-#endif
-#if _ISARDUINO_AVR_UNO || ARDUINO_AVR_NANO
+#elif defined(_ISARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
 _PIN_D2,
 _PIN_D3,
 _PIN_D4,
@@ -65,7 +47,6 @@ _PIN_D10,
 _PIN_D11,
 _PIN_D12,
 _PIN_D13,
-#endif
 #else
 _PIN_D2,
 _PIN_D3,
@@ -84,17 +65,16 @@ END_MAPPING_DECLARATION
 
 #ifdef EVENT_OS
 START_MAPPING_DEFINITION
-#if _IS8266 || _ISARDUINO_AVR_UNO || _IS32 || ARDUINO_AVR_NANO
+#if defined(ESP8266) 
 // Merge (actual hardware pin number, pin name used in code)
 // connecting real pins with virtual pins
-#ifdef ESP8266
+
 MERGE_PINS(5, _PIN_D1)
 MERGE_PINS(4, _PIN_D2)
 MERGE_PINS(14, _PIN_D5)
 MERGE_PINS(12, _PIN_D6)
 MERGE_PINS(13, _PIN_D7)
-#endif
-#ifdef ESP32
+#elif defined(ESP32)
 MERGE_PINS(4, _PIN_4)
 MERGE_PINS(5, _PIN_5)
 MERGE_PINS(13, _PIN_13)
@@ -116,8 +96,7 @@ MERGE_PINS(34, _PIN_34)
 MERGE_PINS(35, _PIN_35)
 MERGE_PINS(36, _PIN_36)
 MERGE_PINS(39, _PIN_39)
-#endif
-#if _ISARDUINO_AVR_UNO || ARDUINO_AVR_NANO
+#elif  defined(_ISARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
 MERGE_PINS(2, _PIN_D2)
 MERGE_PINS(3, _PIN_D3)
 MERGE_PINS(4, _PIN_D4)
@@ -130,7 +109,6 @@ MERGE_PINS(10, _PIN_D10)
 MERGE_PINS(11, _PIN_D11)
 MERGE_PINS(12, _PIN_D12)
 MERGE_PINS(13, _PIN_D13)
-#endif
 #else
 MERGE_PINS(2, _PIN_D2)
 MERGE_PINS(3, _PIN_D3)
