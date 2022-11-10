@@ -11,6 +11,11 @@ static bool s_bShutdown{ false };
 
 static PinEvent s_events[NUMBER_OF_PINS]{};
 
+const bool& GetPinState(PinType pin)
+{
+    return s_events[pin].bLastPinState;
+}
+
 void ShutDownEventOS()
 {
     s_bShutdown = true;

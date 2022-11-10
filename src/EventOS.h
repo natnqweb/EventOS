@@ -32,6 +32,7 @@ void InitPinEvents();
 void RunEventsOnPins(bool run = true);
 void TurnOffEventsOnPin(PinType pin, bool reset = false);
 void AddEventListener(PinType pin, int nEventType, Event function);
+const bool& GetPinState(PinType pin);
 void ShutDownEventOS();
 void TurnOnEventOS();
 const bool& IsEventOSTurnedOff();
