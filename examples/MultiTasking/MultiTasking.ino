@@ -2,7 +2,7 @@
 #include <EventOS.h>
 // program notify user when pin 2 is changing state from high to low while blinking led at the same time
 // Arduino Uno
-const unsigned char ledPin = 13;
+const unsigned char ledPin = LED_BUILTIN;
 unsigned long lastMillis = 0;
 const unsigned long interval = 1000;
 bool ledState = false;
