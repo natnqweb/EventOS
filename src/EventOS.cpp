@@ -13,7 +13,7 @@ static PinEvent s_events[NUMBER_OF_PINS]{};
 static PinEvent* s_pEvents = s_events;
 static PinMap* s_pMap = s_map;
 static IndexType s_numberOfPins = NUMBER_OF_PINS;
-bool bInitialized = false;
+static bool bInitialized = false;
 
 const bool& GetPinState(PinType pin)
 {
