@@ -9,15 +9,6 @@ static PinMap* s_pMap = s_map;
 static IndexType s_numberOfPins = NUMBER_OF_PINS;
 bool bInitialized = false;
 
-<<<<<<< Updated upstream
-void InitPinEvents()
-{
-    for (unsigned char i = 0; i < NUMBER_OF_PINS; i++)
-    {
-        int index = s_map[i].index;
-        unsigned char pin = s_map[i].pin;
-        PinEvent& event = s_events[index];
-=======
 const bool& GetPinState(PinType pin)
 {
     return s_pEvents[pin].bLastPinState;
@@ -48,7 +39,6 @@ void InitPinEvents()
         IndexType index = s_pMap[i].index;
         PinType pin = s_pMap[i].pin;
         PinEvent& event = s_pEvents[index];
->>>>>>> Stashed changes
         event.pin = pin;
         pinMode(pin, INPUT_PULLUP);
         event.bLastPinState = digitalRead(pin);
@@ -67,30 +57,30 @@ void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNew
 
 void RunEventsOnPins(bool run)
 {
-<<<<<<< Updated upstream
-    for (unsigned char i = 0; (run && i < NUMBER_OF_PINS); i++)
-=======
-    for (IndexType i = 0; (run && i < s_numberOfPins); i++)
->>>>>>> Stashed changes
-    {
-        PinEvent& event = s_pEvents[i];
-        if (event.settings.bStopAll)
-            continue;
+    <<<<<< < Updated upstream
+        for (unsigned char i = 0; (run && i < NUMBER_OF_PINS); i++)
+            ====== =
+            for (IndexType i = 0; (run && i < s_numberOfPins); i++)
+                >>>>>> > Stashed changes
+            {
+                PinEvent & event = s_pEvents[i];
+                if (event.settings.bStopAll)
+                    continue;
 
-        bool pinState = digitalRead(event.pin);
-        if (pinState != event.bLastPinState)
-        {
-            event.bLastPinState = pinState;
+                bool pinState = digitalRead(event.pin);
+                if (pinState != event.bLastPinState)
+                {
+                    event.bLastPinState = pinState;
 
-            if (event.settings.bEventOnPinStateChange)
-                event.OnPinStateChange();
+                    if (event.settings.bEventOnPinStateChange)
+                        event.OnPinStateChange();
 
-            if (event.settings.bEventOnPinSetHigh && pinState)
-                event.OnPinStateHigh();
-            else if (event.settings.bEventOnPinSetLow && !pinState)
-                event.OnPinStateLow();
-        }
-    }
+                    if (event.settings.bEventOnPinSetHigh && pinState)
+                        event.OnPinStateHigh();
+                    else if (event.settings.bEventOnPinSetLow && !pinState)
+                        event.OnPinStateLow();
+                }
+            }
 }
 
 void TurnOffEventsOnPin(unsigned char pin, bool reset)
