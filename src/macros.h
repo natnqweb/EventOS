@@ -1,7 +1,9 @@
 #ifndef MACROS_H
 #define MACROS_H
 #define __UNUSED_OBJ(X)
-#define __OVERRIDE  __UNUSED_OBJ(__set_override_flag());
+#define __CREATE_OVERRIDE_OBJ __set_override_flag __override_flag{};
+#define __IGNORE_UNUSED_OVERRIDE_OBJ __UNUSED_OBJ(__override_flag);
+#define __OVERRIDE __CREATE_OVERRIDE_OBJ  __IGNORE_UNUSED_OVERRIDE_OBJ
 
 #ifdef DEBUG // DEBUG
 #define LOGLN(X) Serial.println(X)
