@@ -1,5 +1,5 @@
 #ifndef EVENTS_OS
-#define EVENTS_OS _EVENT_OS
+#define EVENTS_OS
 #include "PinMapping.h"
 #include "macros.h"
 #define ON_FALLING_EDGE_EVENT 0
@@ -20,7 +20,7 @@ struct RunEventSettings
 
 struct PinEvent
 {
-    unsigned char pin = 2;
+    PinType pin = 2;
     Event OnPinStateChange = __EmptyFunction__;
     Event OnPinStateHigh = __EmptyFunction__;
     Event OnPinStateLow = __EmptyFunction__;
@@ -31,6 +31,11 @@ struct PinEvent
 void InitPinEvents();
 void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents);
 void RunEventsOnPins(bool run = true);
-void TurnOffEventsOnPin(unsigned char pin, bool reset = false);
-void AddEventListener(unsigned char pin, int nEventType, Event function);
+void TurnOffEventsOnPin(PinType pin, bool reset = false);
+void AddEventListener(PinType pin, int nEventType, Event function);
+const bool& GetPinState(PinType pin);
+void ShutDownEventOS();
+void TurnOnEventOS();
+const bool& IsEventOSTurnedOff();
+
 #endif

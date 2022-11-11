@@ -3,6 +3,12 @@
 #include "EventOS.h"
 void __EmptyFunction__() {}
 
+#ifdef EVENT_OS_OFF
+static bool s_bShutdown{ true };
+#else
+static bool s_bShutdown{ false };
+#endif // EVENT_OS_OFF
+
 static PinEvent s_events[NUMBER_OF_PINS]{};
 static PinEvent* s_pEvents = s_events;
 static PinMap* s_pMap = s_map;
@@ -12,6 +18,26 @@ bool bInitialized = false;
 const bool& GetPinState(PinType pin)
 {
     return s_pEvents[pin].bLastPinState;
+}
+
+void ShutDownEventOS()
+{
+    s_bShutdown = true;
+}
+
+void TurnOnEventOS()
+{
+    s_bShutdown = false;
+}
+
+const bool& IsEventOSTurnedOff()
+{
+    return s_bShutdown;
+}
+
+const bool& GetPinState(PinType pin)
+{
+    return s_events[pin].bLastPinState;
 }
 
 void ShutDownEventOS()
@@ -83,12 +109,12 @@ void RunEventsOnPins(bool run)
             }
 }
 
-void TurnOffEventsOnPin(unsigned char pin, bool reset)
+void TurnOffEventsOnPin(PinType pin, bool reset)
 {
     s_pEvents[pin].settings.bStopAll = !reset;
 }
 
-void AddEventListener(unsigned char pin, int eventType, Event function)
+void AddEventListener(PinType pin, int eventType, Event function)
 {
     PinEvent& refEvent = s_pEvents[pin];
     switch (eventType)
