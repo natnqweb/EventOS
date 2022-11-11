@@ -5,7 +5,10 @@
 #define ON_FALLING_EDGE_EVENT 0
 #define ON_RISING_EDGE_EVENT 1
 #define ON_CHANGE_EVENT 2
-
+struct __set_override_flag
+{
+    __set_override_flag();
+};
 typedef void (*Event)(void);
 void __EmptyFunction__();
 
@@ -36,6 +39,8 @@ void AddEventListener(PinType pin, int nEventType, Event function);
 const bool& GetPinState(PinType pin);
 void ShutDownEventOS();
 void TurnOnEventOS();
+const bool& __GetInitOverride();
+void __SetInitOverride();
 const bool& IsEventOSTurnedOff();
 
 #endif

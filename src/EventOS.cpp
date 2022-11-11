@@ -13,8 +13,20 @@ static PinEvent s_events[NUMBER_OF_PINS]{};
 static PinEvent* s_pEvents = s_events;
 static PinMap* s_pMap = s_map;
 static IndexType s_numberOfPins = NUMBER_OF_PINS;
-static bool bInitialized = false;
-
+static bool s_bInitialized = false;
+static bool s_bInitOverride = false;
+__set_override_flag::__set_override_flag()
+{
+    __SetInitOverride();
+}
+void __SetInitOverride()
+{
+    s_bInitOverride = true;
+}
+const bool& __GetInitOverride()
+{
+    return s_bInitOverride;
+}
 const bool& GetPinState(PinType pin)
 {
     return s_pEvents[pin].bLastPinState;
@@ -37,7 +49,7 @@ const bool& IsEventOSTurnedOff()
 
 void InitPinEvents()
 {
-    if (bInitialized)
+    if (s_bInitialized)
         return;
 
     for (IndexType i = 0; i < s_numberOfPins; i++)
@@ -50,7 +62,7 @@ void InitPinEvents()
         event.bLastPinState = digitalRead(pin);
     }
 
-    bInitialized = true;
+    s_bInitialized = true;
 }
 
 void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents)

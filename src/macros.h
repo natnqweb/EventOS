@@ -1,15 +1,19 @@
 #ifndef MACROS_H
 #define MACROS_H
+#define __UNUSED_OBJ(X)
+#define __OVERRIDE  __UNUSED_OBJ(__set_override_flag());
 
 #ifdef DEBUG // DEBUG
 #define LOGLN(X) Serial.println(X)
 #define LOG(X) Serial.print(X)
 
-#define PROGRAM_SETUP(BAUDRATE) ProgramInit(); \
+#define PROGRAM_SETUP(BAUDRATE) \
+ProgramInit(); \
 void setup() \
 {\
- Serial.begin(BAUDRATE);\
- InitPinEvents();\
+Serial.begin(BAUDRATE); \
+if(!__GetInitOverride()) \
+    InitPinEvents();\
  ProgramInit();\
 } \
 void ProgramInit()
@@ -19,11 +23,13 @@ void ProgramInit()
 #define LOGLN(X)
 #define LOG(X)
 
-#define PROGRAM_SETUP(BAUDRATE) ProgramInit(); \
+#define PROGRAM_SETUP(BAUDRATE) \
+ProgramInit(); \
 void setup() \
-{\
- InitPinEvents();\
- ProgramInit();\
+{ \
+if (!__GetInitOverride()) \
+InitPinEvents();\
+ProgramInit();\
 } \
 void ProgramInit()
 
