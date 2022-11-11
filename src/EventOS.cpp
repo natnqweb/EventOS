@@ -83,30 +83,27 @@ void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNew
 
 void RunEventsOnPins(bool run)
 {
-    <<<<<< < Updated upstream
-        for (unsigned char i = 0; (run && i < NUMBER_OF_PINS); i++)
-            ====== =
-            for (IndexType i = 0; (run && i < s_numberOfPins); i++)
-                >>>>>> > Stashed changes
-            {
-                PinEvent & event = s_pEvents[i];
-                if (event.settings.bStopAll)
-                    continue;
 
-                bool pinState = digitalRead(event.pin);
-                if (pinState != event.bLastPinState)
-                {
-                    event.bLastPinState = pinState;
+    for (IndexType i = 0; (run && i < s_numberOfPins); i++)
+    {
+        PinEvent& event = s_pEvents[i];
+        if (event.settings.bStopAll)
+            continue;
 
-                    if (event.settings.bEventOnPinStateChange)
-                        event.OnPinStateChange();
+        bool pinState = digitalRead(event.pin);
+        if (pinState != event.bLastPinState)
+        {
+            event.bLastPinState = pinState;
 
-                    if (event.settings.bEventOnPinSetHigh && pinState)
-                        event.OnPinStateHigh();
-                    else if (event.settings.bEventOnPinSetLow && !pinState)
-                        event.OnPinStateLow();
-                }
-            }
+            if (event.settings.bEventOnPinStateChange)
+                event.OnPinStateChange();
+
+            if (event.settings.bEventOnPinSetHigh && pinState)
+                event.OnPinStateHigh();
+            else if (event.settings.bEventOnPinSetLow && !pinState)
+                event.OnPinStateLow();
+        }
+    }
 }
 
 void TurnOffEventsOnPin(PinType pin, bool reset)
