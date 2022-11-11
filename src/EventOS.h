@@ -29,6 +29,7 @@ struct PinEvent
 };
 
 void InitPinEvents();
+void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents);
 void RunEventsOnPins(bool run = true);
 void TurnOffEventsOnPin(unsigned char pin, bool reset = false);
 void AddEventListener(unsigned char pin, int nEventType, Event function);
