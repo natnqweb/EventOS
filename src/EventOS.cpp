@@ -35,26 +35,6 @@ const bool& IsEventOSTurnedOff()
     return s_bShutdown;
 }
 
-const bool& GetPinState(PinType pin)
-{
-    return s_events[pin].bLastPinState;
-}
-
-void ShutDownEventOS()
-{
-    s_bShutdown = true;
-}
-
-void TurnOnEventOS()
-{
-    s_bShutdown = false;
-}
-
-const bool& IsEventOSTurnedOff()
-{
-    return s_bShutdown;
-}
-
 void InitPinEvents()
 {
     if (bInitialized)
