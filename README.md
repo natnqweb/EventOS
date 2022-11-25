@@ -84,7 +84,7 @@ void PROGRAM_LOOP()
 You can custom map pins whatever you like (add, remove, rearrange) - basicaly adjust it to any board.
 
 1. first way (advanced) modifying source
-   
+
     *default is:*
 
     ``` C++
@@ -226,8 +226,8 @@ You can custom map pins whatever you like (add, remove, rearrange) - basicaly ad
     ```
 
 2. **another way (more Generic)**
-    
-    you can override default code behaviour by using __OVERRIDE specification before void PROGRAM_SETUP(BAUD) and providing arguments to ChangEvents function: 
+
+    you can override default code behaviour by using __OVERRIDE specification before void PROGRAM_SETUP(BAUD) and providing arguments to ChangEvents function:
 
     ```C++
 
@@ -311,36 +311,32 @@ example:
 
 # **Functions**
 
-`void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents)`
-description:
-    Function for custom mapping pins and overriding default behaviour look at example: FullyCustom.ino
+1. `void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents)`
+
+    description:
+        Function for custom mapping pins and overriding default behaviour look at example: FullyCustom.ino
+
+1. `TurnOffEventsOnPin(pin, reset = false (optional))`
+
+    description:
+        turns off all events on given pin if reset set to true events are turned on back
+
+1. `AddEventListener(pin,event,function)`
+
+    description:
+        calls function whenever event happens on given pin
+
+1. `const bool& GetPinState(PinType virtualPin)`
+
+    description:
+        Returns actual state of pin that is mapped to virtualPin very handy if you are using ON_CHANGE_EVENT and want to know what is the state of pin right now
+
+1. `void ShutDownEventOS()`, `void TurnOnEventOS()`
+
+    description: Functions for turninging on and turning off whole EventOS logic Functions
+
+============================================================================================
 =
-
-`TurnOffEventsOnPin(pin, reset = false (optional))`
-description:
-    turns off all events on given pin if reset set to true events are turned on back
-=
-
-`AddEventListener(pin,event,function)`
-description:
-    calls function whenever event happens on given pin
-=
-
-`const bool& GetPinState(PinType virtualPin)`
-description:
-    Returns actual state of pin that is mapped to virtualPin very handy if you are using ON_CHANGE_EVENT and want to know what is the state of pin right now
-=
-# 
-[
-`void ShutDownEventOS()`,
-`void TurnOnEventOS()`
-]
-description: Functions for turninging on and turning off whole EventOS logic
-=
-
-
-Functions
-
 
 MIT License
 
