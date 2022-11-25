@@ -335,7 +335,7 @@ example:
 
     description: Functions for turninging on and turning off whole EventOS logic Functions
 
-============================================================================================
+**LICENSE**
 =
 
 MIT License
