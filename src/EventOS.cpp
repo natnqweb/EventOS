@@ -17,8 +17,6 @@ static bool s_bInitialized = false;
 static bool s_bInitOverride = false;
 static bool s_bOverrideMacroMappingUsed = false;
 
-static PinEvent* s_pOverrideNewEvents = nullptr;
-
 __set_override_flag::__set_override_flag(int i)
 {
     __SetInitOverride();
@@ -26,10 +24,6 @@ __set_override_flag::__set_override_flag(int i)
         s_bOverrideMacroMappingUsed = true;
 }
 
-PinEvent* __GetOverrideNewEvents()
-{
-    return s_pOverrideNewEvents;
-}
 void __SetInitOverride()
 {
     s_bInitOverride = true;

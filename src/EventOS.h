@@ -42,7 +42,6 @@ void TurnOnEventOS();
 const bool& __GetInitOverride();
 void __SetInitOverride();
 const bool& __GetOverrideMacroMappingUsedFlag();
-PinEvent* __GetOverrideNewEvents();
 const bool& IsEventOSTurnedOff();
 
 #endif
