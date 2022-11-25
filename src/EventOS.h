@@ -5,7 +5,10 @@
 #define ON_FALLING_EDGE_EVENT 0
 #define ON_RISING_EDGE_EVENT 1
 #define ON_CHANGE_EVENT 2
-
+struct __set_override_flag
+{
+    __set_override_flag(int i = 0);
+};
 typedef void (*Event)(void);
 void __EmptyFunction__();
 
@@ -29,12 +32,16 @@ struct PinEvent
 };
 
 void InitPinEvents();
+void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents);
 void RunEventsOnPins(bool run = true);
 void TurnOffEventsOnPin(PinType pin, bool reset = false);
 void AddEventListener(PinType pin, int nEventType, Event function);
 const bool& GetPinState(PinType pin);
 void ShutDownEventOS();
 void TurnOnEventOS();
+const bool& __GetInitOverride();
+void __SetInitOverride();
+const bool& __GetOverrideMacroMappingUsedFlag();
 const bool& IsEventOSTurnedOff();
 
 #endif

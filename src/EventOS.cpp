@@ -10,10 +10,37 @@ static bool s_bShutdown{ false };
 #endif // EVENT_OS_OFF
 
 static PinEvent s_events[NUMBER_OF_PINS]{};
+static PinEvent* s_pEvents = s_events;
+static PinMap* s_pMap = s_map;
+static IndexType s_numberOfPins = NUMBER_OF_PINS;
+static bool s_bInitialized = false;
+static bool s_bInitOverride = false;
+static bool s_bOverrideMacroMappingUsed = false;
 
+__set_override_flag::__set_override_flag(int i)
+{
+    __SetInitOverride();
+    if (i > 0)
+        s_bOverrideMacroMappingUsed = true;
+}
+
+void __SetInitOverride()
+{
+    s_bInitOverride = true;
+}
+
+const bool& __GetOverrideMacroMappingUsedFlag()
+{
+    return s_bOverrideMacroMappingUsed;
+}
+
+const bool& __GetInitOverride()
+{
+    return s_bInitOverride;
+}
 const bool& GetPinState(PinType pin)
 {
-    return s_events[pin].bLastPinState;
+    return s_pEvents[pin].bLastPinState;
 }
 
 void ShutDownEventOS()
@@ -33,22 +60,36 @@ const bool& IsEventOSTurnedOff()
 
 void InitPinEvents()
 {
-    for (IndexType i = 0; i < NUMBER_OF_PINS; i++)
+    if (s_bInitialized)
+        return;
+
+    for (IndexType i = 0; i < s_numberOfPins; i++)
     {
-        IndexType index = s_map[i].index;
-        PinType pin = s_map[i].pin;
-        PinEvent& event = s_events[index];
+        IndexType index = s_pMap[i].index;
+        PinType pin = s_pMap[i].pin;
+        PinEvent& event = s_pEvents[index];
         event.pin = pin;
         pinMode(pin, INPUT_PULLUP);
         event.bLastPinState = digitalRead(pin);
     }
+
+    s_bInitialized = true;
+}
+
+void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents)
+{
+    s_pMap = pinMapping;
+    s_numberOfPins = numberOfNewEvents;
+    s_pEvents = newEvents;
+    InitPinEvents();
 }
 
 void RunEventsOnPins(bool run)
 {
-    for (IndexType i = 0; (run && i < NUMBER_OF_PINS); i++)
+
+    for (IndexType i = 0; (run && i < s_numberOfPins); i++)
     {
-        PinEvent& event = s_events[i];
+        PinEvent& event = s_pEvents[i];
         if (event.settings.bStopAll)
             continue;
 
@@ -70,12 +111,12 @@ void RunEventsOnPins(bool run)
 
 void TurnOffEventsOnPin(PinType pin, bool reset)
 {
-    s_events[pin].settings.bStopAll = !reset;
+    s_pEvents[pin].settings.bStopAll = !reset;
 }
 
 void AddEventListener(PinType pin, int eventType, Event function)
 {
-    PinEvent& refEvent = s_events[pin];
+    PinEvent& refEvent = s_pEvents[pin];
     switch (eventType)
     {
         case ON_CHANGE_EVENT:

@@ -11,7 +11,7 @@ enum PinMapping \
 
 #define MERGE_PINS(PIN,VPIN) {PIN,VPIN},
 
-#define START_MAPPING_DEFINITION static const PinMap s_map[NUMBER_OF_PINS] \
+#define START_MAPPING_DEFINITION static PinMap s_map[NUMBER_OF_PINS] \
 {
 
 #define END_MAPPING_DEFINITION };
