@@ -15,14 +15,31 @@ static PinMap* s_pMap = s_map;
 static IndexType s_numberOfPins = NUMBER_OF_PINS;
 static bool s_bInitialized = false;
 static bool s_bInitOverride = false;
-__set_override_flag::__set_override_flag()
+static bool s_bOverrideMacroMappingUsed = false;
+
+static PinEvent* s_pOverrideNewEvents = nullptr;
+
+__set_override_flag::__set_override_flag(int i)
 {
     __SetInitOverride();
+    if (i > 0)
+        s_bOverrideMacroMappingUsed = true;
+}
+
+PinEvent* __GetOverrideNewEvents()
+{
+    return s_pOverrideNewEvents;
 }
 void __SetInitOverride()
 {
     s_bInitOverride = true;
 }
+
+const bool& __GetOverrideMacroMappingUsedFlag()
+{
+    return s_bOverrideMacroMappingUsed;
+}
+
 const bool& __GetInitOverride()
 {
     return s_bInitOverride;

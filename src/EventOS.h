@@ -7,7 +7,7 @@
 #define ON_CHANGE_EVENT 2
 struct __set_override_flag
 {
-    __set_override_flag();
+    __set_override_flag(int i = 0);
 };
 typedef void (*Event)(void);
 void __EmptyFunction__();
@@ -41,6 +41,8 @@ void ShutDownEventOS();
 void TurnOnEventOS();
 const bool& __GetInitOverride();
 void __SetInitOverride();
+const bool& __GetOverrideMacroMappingUsedFlag();
+PinEvent* __GetOverrideNewEvents();
 const bool& IsEventOSTurnedOff();
 
 #endif
