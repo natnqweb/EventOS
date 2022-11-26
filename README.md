@@ -79,9 +79,9 @@ void PROGRAM_LOOP()
 }
 ```
 
-# CUSTOM PIN REMAPPING (FOR ANY BOARD)
+# MODIFYING PIN SUPPORT (FOR ANY BOARD)
 
-You can custom map pins whatever you like (add, remove, rearrange) - basicaly adjust it to any board.
+You can modify supported pins array whatever you like (add, remove) - basicaly adjust it to any board.
 
 1. **recommended** way
    
@@ -91,37 +91,35 @@ You can custom map pins whatever you like (add, remove, rearrange) - basicaly ad
 
     #define DEBUG
     #include <EventOS.h>
-    // this example is for any board adjust  custom
-    // if you use this macro there will be 50 Virtual Pins for your disposition numbered like this : VIRTUAL_PIN1, VIRTUAL_PIN2, VIRTUAL_PIN3 ,VIRTUAL_PIN4 ... VIRTUAL_PIN50
-    // just map real board pins to them and use in code
-    // map two buttons for example button A will be connected to real board pin 4 and button b to pin 5 adjust it whatever you like
+    // this example is for any board adjust for your own usage
+    // map two buttons for example button A will be connected to real board pin 4 and button b to pin 5
     // there is no debouncing so you might notice some pin bouncing by default pins are PULLED_UP via internal resistor
     #define BUTTON_PIN_A 4
     #define BUTTON_PIN_B 5
 
     OVERRIDE_PINMAPPING_START
-    MERGE_PINS(BUTTON_PIN_A, VIRTUAL_PIN1)
-    MERGE_PINS(BUTTON_PIN_B, VIRTUAL_PIN2)
+    ADD_PIN(BUTTON_PIN_A)
+    ADD_PIN(BUTTON_PIN_B)
     OVERRIDE_PINMAPPING_END
 
-    void OnVirtualPin1ChangeEvent()
+    void OnPinAChangeEvent()
     {
-    LOG("Virtual Pin 1 State changed to: ");
-    // retrieve pin state from Virtual Pin1 using GetPinState Function
-    LOGLN(GetPinState(VIRTUAL_PIN1));
+    LOG("Pin A State changed to: ");
+    // retrieve pin state from Pin A using GetPinState Function
+    LOGLN(GetPinState(BUTTON_PIN_A));
     }
 
-    void OnVirtualPin2ChangeEvent()
+    void OnPinBChangeEvent()
     {
-    LOG("Virtual Pin 2 State changed to: ");
-    // retrieve pin state from Virtual Pin2 using GetPinState Function
-    LOGLN(GetPinState(VIRTUAL_PIN2));
+    LOG("Pin B State changed to: ");
+    // retrieve pin state from Pin B using GetPinState Function
+    LOGLN(GetPinState(BUTTON_PIN_B));
     }
-
+    // when u use OVERRIDE_PINMAPPING macro to change default pins you must use PROGRAM_SETUP_AUTO()
     void PROGRAM_SETUP_AUTO(115200)
     {
-    AddEventListener(VIRTUAL_PIN1, ON_CHANGE_EVENT, OnVirtualPin1ChangeEvent);
-    AddEventListener(VIRTUAL_PIN2, ON_CHANGE_EVENT, OnVirtualPin2ChangeEvent);
+    AddEventListener(BUTTON_PIN_A, ON_CHANGE_EVENT, OnPinAChangeEvent);
+    AddEventListener(BUTTON_PIN_B, ON_CHANGE_EVENT, OnPinBChangeEvent);
     }
 
     void PROGRAM_LOOP()
@@ -142,131 +140,69 @@ You can custom map pins whatever you like (add, remove, rearrange) - basicaly ad
     #define PIN_MAPPING
 
     typedef unsigned char PinType;
-    typedef PinType IndexType;
+    typedef PinType ArrSizeType;
     #include "MappingMacro.h"
 
-    START_MAPPING_DECLARATION
-    #if defined(ESP8266) 
-    _PIN_D1,
-    _PIN_D2,
-    _PIN_D5,
-    _PIN_D6,
-    _PIN_D7,
-    #elif defined(ESP32)
-    _PIN_D4,
-    _PIN_D5,
-    _PIN_D13,
-    _PIN_D14,
-    _PIN_D15,
-    _PIN_D16,
-    _PIN_D17,
-    _PIN_D18,
-    _PIN_D19,
-    _PIN_D21,
-    _PIN_D22,
-    _PIN_D23,
-    _PIN_D25,
-    _PIN_D26,
-    _PIN_D27,
-    _PIN_D32,
-    _PIN_D33,
-    _PIN_D34,
-    _PIN_D35,
-    _PIN_D36,
-    _PIN_D39,
-    #elif defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
-    _PIN_D2,
-    _PIN_D3,
-    _PIN_D4,
-    _PIN_D5,
-    _PIN_D6,
-    _PIN_D7,
-    _PIN_D8,
-    _PIN_D9,
-    _PIN_D10,
-    _PIN_D11,
-    _PIN_D12,
-    _PIN_D13,
-    #else
-    // THIS IS WHERE YOU PLACE YOUR OWN VIRTUAL PINS FOR ANY BOARD THAT IS NOT LISTED AS ABOVE
-    _PIN_D2,
-    _PIN_D3,
-    _PIN_D4,
-    _PIN_D5,
-    _PIN_D6,
-    _PIN_D7,
-    _PIN_D8,
-    _PIN_D9,
-    _PIN_D10,
-    _PIN_D11,
-    _PIN_D12,
-    _PIN_D13,
-    #endif
-    END_MAPPING_DECLARATION
-
     #ifdef EVENT_OS
-    START_MAPPING_DEFINITION
+    START_PIN_ARRAY
     #if defined(ESP8266) 
-    // Merge (actual hardware pin number, pin name used in code)
-    // connecting real pins with virtual pins
-
-    MERGE_PINS(5, _PIN_D1)
-    MERGE_PINS(4, _PIN_D2)
-    MERGE_PINS(14, _PIN_D5)
-    MERGE_PINS(12, _PIN_D6)
-    MERGE_PINS(13, _PIN_D7)
+    // ADD REAL HARDWARE PIN TO ARRAY. ALL PINS ADDED TO ARRAY WILL SUPPORT EVENTS
+    ADD_PIN(5)
+    ADD_PIN(4)
+    ADD_PIN(14)
+    ADD_PIN(12)
+    ADD_PIN(13)
     #elif defined(ESP32)
-    MERGE_PINS(4, _PIN_4)
-    MERGE_PINS(5, _PIN_5)
-    MERGE_PINS(13, _PIN_13)
-    MERGE_PINS(14, _PIN_14)
-    MERGE_PINS(15, _PIN_15)
-    MERGE_PINS(16, _PIN_16)
-    MERGE_PINS(17, _PIN_17)
-    MERGE_PINS(18, _PIN_18)
-    MERGE_PINS(19, _PIN_19)
-    MERGE_PINS(21, _PIN_21)
-    MERGE_PINS(22, _PIN_22)
-    MERGE_PINS(23, _PIN_23)
-    MERGE_PINS(25, _PIN_25)
-    MERGE_PINS(26, _PIN_26)
-    MERGE_PINS(27, _PIN_27)
-    MERGE_PINS(32, _PIN_32)
-    MERGE_PINS(33, _PIN_33)
-    MERGE_PINS(34, _PIN_34)
-    MERGE_PINS(35, _PIN_35)
-    MERGE_PINS(36, _PIN_36)
-    MERGE_PINS(39, _PIN_39)
+    ADD_PIN(4)
+    ADD_PIN(5)
+    ADD_PIN(13)
+    ADD_PIN(14)
+    ADD_PIN(15)
+    ADD_PIN(16)
+    ADD_PIN(17)
+    ADD_PIN(18)
+    ADD_PIN(19)
+    ADD_PIN(21)
+    ADD_PIN(22)
+    ADD_PIN(23)
+    ADD_PIN(25)
+    ADD_PIN(26)
+    ADD_PIN(27)
+    ADD_PIN(32)
+    ADD_PIN(33)
+    ADD_PIN(34)
+    ADD_PIN(35)
+    ADD_PIN(36)
+    ADD_PIN(39)
     #elif  defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_NANO)
-    MERGE_PINS(2, _PIN_D2)
-    MERGE_PINS(3, _PIN_D3)
-    MERGE_PINS(4, _PIN_D4)
-    MERGE_PINS(5, _PIN_D5)
-    MERGE_PINS(6, _PIN_D6)
-    MERGE_PINS(7, _PIN_D7)
-    MERGE_PINS(8, _PIN_D8)
-    MERGE_PINS(9, _PIN_D9)
-    MERGE_PINS(10, _PIN_D10)
-    MERGE_PINS(11, _PIN_D11)
-    MERGE_PINS(12, _PIN_D12)
-    MERGE_PINS(13, _PIN_D13)
+    ADD_PIN(2)
+    ADD_PIN(3)
+    ADD_PIN(4)
+    ADD_PIN(5)
+    ADD_PIN(6)
+    ADD_PIN(7)
+    ADD_PIN(8)
+    ADD_PIN(9)
+    ADD_PIN(10)
+    ADD_PIN(11)
+    ADD_PIN(12)
+    ADD_PIN(13)
     #else
-    // THIS IS WHERE YOU MERGE YOUR CUSTOM PIN WITH REAL BOARD PIN 
-    // FOR EXAMPLE YOU MIGHT  WANT TO MAP HERE RASPBERRYPI OR STM BOARD PINS TO VIRTUAL PINS
-    MERGE_PINS(2, _PIN_D2)
-    MERGE_PINS(3, _PIN_D3)
-    MERGE_PINS(4, _PIN_D4)
-    MERGE_PINS(5, _PIN_D5)
-    MERGE_PINS(6, _PIN_D6)
-    MERGE_PINS(7, _PIN_D7)
-    MERGE_PINS(8, _PIN_D8)
-    MERGE_PINS(9, _PIN_D9)
-    MERGE_PINS(10, _PIN_D10)
-    MERGE_PINS(11, _PIN_D11)
-    MERGE_PINS(12, _PIN_D12)
-    MERGE_PINS(13, _PIN_D13)
+    // ADD YOUR BOARD PINS HERE MODIFY THIS ARRAY AS YOU NEED
+    ADD_PIN(2)
+    ADD_PIN(3)
+    ADD_PIN(4)
+    ADD_PIN(5)
+    ADD_PIN(6)
+    ADD_PIN(7)
+    ADD_PIN(8)
+    ADD_PIN(9)
+    ADD_PIN(10)
+    ADD_PIN(11)
+    ADD_PIN(12)
+    ADD_PIN(13)
     #endif
-    END_MAPPING_DEFINITION
+    END_PIN_ARRAY
 
     #endif // EVENT_OS
 
@@ -279,57 +215,43 @@ You can custom map pins whatever you like (add, remove, rearrange) - basicaly ad
     you can override default code behaviour by using __OVERRIDE specification before void PROGRAM_SETUP(BAUD) and providing arguments to ChangEvents function:
 
     ```C++
-
     #define DEBUG
     #include <EventOS.h>
     // for this example Custom mapping pins in esp8266
     // you can custom map any board as long as it is supported by arduino framework
     // esp32 , esp8266 .. all arduino.. raspberrypi .. stm ... etc... 
-
-
-    // define your custom virtual pins to use them later in program
-    enum CustomVirtualPins : PinType
+    static const ArrSizeType numberOfPins{ 2 };
+    PinType customPinMap[numberOfPins]
     {
-        VIRTUAL_PIN1,
-        VIRTUAL_PIN2,
-        TOTAL_NUMBER_OF_CUSTOM_PINS // this entry always needs to be last in enum
-    };
-
-    //map real pins and virtual pins together
-    PinMap customPinMap[TOTAL_NUMBER_OF_CUSTOM_PINS]
-    {
-        // MERGE_PINS(REAL ACTUAL BOARD PIN,  YOUR VIRTUALPIN)
         //* REAL ACTUAL BOARD PIN - pin that you pass for example to digitalRead(REAL ACTUAL BOARD PIN)
-        MERGE_PINS(5, VIRTUAL_PIN1)
-        MERGE_PINS(4, VIRTUAL_PIN2)
+        ADD_PIN(5)
+        ADD_PIN(4)
     };
 
     // define PinEvent array it hold your events
-    PinEvent customEvents[TOTAL_NUMBER_OF_CUSTOM_PINS]{};
+    PinEvent customEvents[numberOfPins]{};
 
-    void VPin1FallingEvent()
+    void Pin5FallingEvent()
     {
         LOG("pin 1 state changed from 1 to ");
-        LOGLN(GetPinState(VIRTUAL_PIN1));
+        LOGLN(GetPinState(5));
     }
 
-    void VPin2FallingEvent()
+    void Pin4FallingEvent()
     {
         LOG("pin 2 state changed from 1 to ");
-        LOGLN(GetPinState(VIRTUAL_PIN2));
+        LOGLN(GetPinState(4));
     }
     // OVERRIDE DEFAULT PROGRAM_SETUP
     __OVERRIDE void PROGRAM_SETUP(115200)
     {
         // this ovverrides all default events with custom events
-        ChangeEvents(customPinMap, customEvents, TOTAL_NUMBER_OF_CUSTOM_PINS);
-        // Init PinEvents after you changed to your custom events
-        InitPinEvents();
+        ChangeEvents(customPinMap, customEvents, numberOfPins);
 
         //USER CODE
         //HERE ...
-        AddEventListener(VIRTUAL_PIN1, ON_FALLING_EDGE_EVENT, VPin1FallingEvent);
-        AddEventListener(VIRTUAL_PIN2, ON_FALLING_EDGE_EVENT, VPin2FallingEvent);
+        AddEventListener(5, ON_FALLING_EDGE_EVENT, Pin5FallingEvent);
+        AddEventListener(4, ON_FALLING_EDGE_EVENT, Pin4FallingEvent);
         LOGLN("program started");
     }
 
@@ -337,6 +259,8 @@ You can custom map pins whatever you like (add, remove, rearrange) - basicaly ad
     {
 
     }
+
+  
 
     ```
 
@@ -363,24 +287,24 @@ example:
 1. `void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents)`
 
     description:
-        Function for custom mapping pins and overriding default behaviour look at example: FullyCustom.ino
+        Function for overriding default behaviour look at example: FullyCustom.ino
 
-1. `TurnOffEventsOnPin(pin, reset = false (optional))`
+2. `TurnOffEventsOnPin(pin, reset = false (optional))`
 
     description:
         turns off all events on given pin if reset set to true events are turned on back
 
-1. `AddEventListener(pin,event,function)`
+3. `AddEventListener(pin,event,function)`
 
     description:
         calls function whenever event happens on given pin
 
-1. `const bool& GetPinState(PinType virtualPin)`
+4. `bool GetPinState(PinType boardPin)`
 
     description:
-        Returns actual state of pin that is mapped to virtualPin very handy if you are using ON_CHANGE_EVENT and want to know what is the state of pin right now
+        Returns actual state of pin very handy if you are using ON_CHANGE_EVENT and want to know what is the state of pin right now
 
-1. `void ShutDownEventOS()`, `void TurnOnEventOS()`
+5. `void ShutDownEventOS()`, `void TurnOnEventOS()`
 
     description: Functions for turninging on and turning off whole EventOS logic Functions
 
