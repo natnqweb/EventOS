@@ -32,11 +32,11 @@ struct PinEvent
 };
 
 void InitPinEvents();
-void ChangeEvents(PinMap* pinMapping, PinEvent* newEvents, IndexType numberOfNewEvents);
+void ChangeEvents(PinType* pinMapping, PinEvent* newEvents, ArrSizeType numberOfNewEvents);
 void RunEventsOnPins(bool run = true);
 void TurnOffEventsOnPin(PinType pin, bool reset = false);
 void AddEventListener(PinType pin, int nEventType, Event function);
-const bool& GetPinState(PinType pin);
+bool GetPinState(PinType pin);
 void ShutDownEventOS();
 void TurnOnEventOS();
 const bool& __GetInitOverride();

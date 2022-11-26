@@ -27,7 +27,7 @@ void LogMessageAndValue(const char* msg, int val)
 void PROGRAM_SETUP(115200)
 {
     pinMode(ledPin, OUTPUT);
-    AddEventListener(_PIN_D2, ON_FALLING_EDGE_EVENT, LogChangedToLow);
+    AddEventListener(2, ON_FALLING_EDGE_EVENT, LogChangedToLow);
 }
 
 void PROGRAM_LOOP()
