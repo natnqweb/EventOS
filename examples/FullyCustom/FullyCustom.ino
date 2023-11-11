@@ -4,8 +4,8 @@
 // you can custom map any board as long as it is supported by arduino framework
 // esp32 , esp8266 .. all arduino.. raspberrypi .. stm ... etc... 
 static const ArrSizeType numberOfPins{ 2 };
-#define PIN_A 22
-#define PIN_B 23
+#define PIN_A 4
+#define PIN_B 5
 PinType customPinMap[numberOfPins]
 {
     //* REAL ACTUAL BOARD PIN - pin that you pass for example to digitalRead(REAL ACTUAL BOARD PIN)
