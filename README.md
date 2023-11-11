@@ -1,5 +1,5 @@
 
-# **EventOS Library** Version - 1.1.1
+# **EventOS Library** Version - 1.1.2
 
 ## Fully Tested On
 
@@ -221,26 +221,28 @@ You can modify supported pins array whatever you like (add, remove) - basicaly a
     // you can custom map any board as long as it is supported by arduino framework
     // esp32 , esp8266 .. all arduino.. raspberrypi .. stm ... etc... 
     static const ArrSizeType numberOfPins{ 2 };
+    #define PIN_A 4
+    #define PIN_B 5
     PinType customPinMap[numberOfPins]
     {
         //* REAL ACTUAL BOARD PIN - pin that you pass for example to digitalRead(REAL ACTUAL BOARD PIN)
-        ADD_PIN(5)
-        ADD_PIN(4)
+        ADD_PIN(PIN_A)
+        ADD_PIN(PIN_B)
     };
 
     // define PinEvent array it hold your events
     PinEvent customEvents[numberOfPins]{};
 
-    void Pin5FallingEvent()
+    void PinAFallingEvent()
     {
-        LOG("pin 1 state changed from 1 to ");
-        LOGLN(GetPinState(5));
+        LOG("PinA state changed from 1 to ");
+        LOGLN(GetPinState(PIN_A));
     }
 
-    void Pin4FallingEvent()
+    void PinBFallingEvent()
     {
-        LOG("pin 2 state changed from 1 to ");
-        LOGLN(GetPinState(4));
+        LOG("PinB state changed from 1 to ");
+        LOGLN(GetPinState(PIN_B));
     }
     // OVERRIDE DEFAULT PROGRAM_SETUP
     __OVERRIDE void PROGRAM_SETUP(115200)
@@ -250,8 +252,8 @@ You can modify supported pins array whatever you like (add, remove) - basicaly a
 
         //USER CODE
         //HERE ...
-        AddEventListener(5, ON_FALLING_EDGE_EVENT, Pin5FallingEvent);
-        AddEventListener(4, ON_FALLING_EDGE_EVENT, Pin4FallingEvent);
+        AddEventListener(PIN_A, ON_FALLING_EDGE_EVENT, PinAFallingEvent);
+        AddEventListener(PIN_B, ON_FALLING_EDGE_EVENT, PinBFallingEvent);
         LOGLN("program started");
     }
 
@@ -259,9 +261,6 @@ You can modify supported pins array whatever you like (add, remove) - basicaly a
     {
 
     }
-
-  
-
     ```
 
 # **How To Add Event Listener**
