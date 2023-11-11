@@ -37,18 +37,33 @@ const bool& __GetInitOverride()
     return s_bInitOverride;
 }
 
-bool GetPinState(PinType pin)
+static inline bool FindPinEvent(PinType inPin, PinEvent** outPinEvent)
 {
-    bool bPinState = false;
+    bool bResult = false;
     for (ArrSizeType i = 0; i < s_numberOfPins; i++)
     {
         PinEvent& event = s_pEvents[i];
-        if (event.pin == pin)
+        if (event.pin == inPin)
         {
-            bPinState = event.bLastPinState;
+            bResult = true;
+            if (outPinEvent)
+                *outPinEvent = &event;
             break;
         }
     }
+
+    return bResult;
+}
+
+bool GetPinState(PinType pin)
+{
+    bool bPinState = false;
+    PinEvent* event{};
+    if (FindPinEvent(pin, &event))
+    {
+        bPinState = event->bLastPinState;
+    }
+
     return bPinState;
 }
 
@@ -124,43 +139,35 @@ void RunEventsOnPins(bool run)
 
 void TurnOffEventsOnPin(PinType pin, bool reset)
 {
-    for (ArrSizeType i = 0; i < s_numberOfPins; i++)
+    PinEvent* event{};
+    if (FindPinEvent(pin, &event))
     {
-        auto& event = s_pEvents[i];
-        if (event.pin == pin)
-        {
-            event.settings.bStopAll = !reset;
-            break;
-        }
+        event->settings.bStopAll = !reset;
     }
 }
 
 void AddEventListener(PinType pin, int eventType, Event function)
 {
-    for (ArrSizeType i = 0; i < s_numberOfPins; i++)
+    PinEvent* refEvent{};
+    if (FindPinEvent(pin, &refEvent))
     {
-        auto& refEvent = s_pEvents[i];
-        if (refEvent.pin == pin)
+        switch (eventType)
         {
-            switch (eventType)
-            {
-                case ON_CHANGE_EVENT:
-                    refEvent.OnPinStateChange = function;
-                    refEvent.settings.bEventOnPinStateChange = true;
-                    break;
-                case ON_RISING_EDGE_EVENT:
-                    refEvent.OnPinStateHigh = function;
-                    refEvent.settings.bEventOnPinSetHigh = true;
-                    break;
-                case ON_FALLING_EDGE_EVENT:
-                    refEvent.OnPinStateLow = function;
-                    refEvent.settings.bEventOnPinSetLow = true;
-                default:
-                    break;
-            }
-
-            refEvent.settings.bStopAll = false;
-            break;
+            case ON_CHANGE_EVENT:
+                refEvent->OnPinStateChange = function;
+                refEvent->settings.bEventOnPinStateChange = true;
+                break;
+            case ON_RISING_EDGE_EVENT:
+                refEvent->OnPinStateHigh = function;
+                refEvent->settings.bEventOnPinSetHigh = true;
+                break;
+            case ON_FALLING_EDGE_EVENT:
+                refEvent->OnPinStateLow = function;
+                refEvent->settings.bEventOnPinSetLow = true;
+            default:
+                break;
         }
+
+        refEvent->settings.bStopAll = false;
     }
 }
